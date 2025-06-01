@@ -3,27 +3,24 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
 
-// 
-import './models/User.js';
-import './models/AIContent.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Test Route
+// Routes
+app.use('/api/auth', authRoutes);
+
 app.get('/', (req, res) => {
-  res.send('🚀 C0C Backend Server is Up');
+  res.send('🚀 C0C Backend is running');
 });
 
-// connect db
+// Connect to DB and start server
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-  });
+  app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 });
